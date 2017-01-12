@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <title>会鸽互娱抽奖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="assets/css/cj.css">
+</head>
+
+<body>
+    <div class="hg-logo">
+        <!-- <img src="assets/img/hg.png" alt=""> -->
+        <!-- <img src="assets/img/logo-blue.png" alt=""> -->
+    </div>
+    <div class="container">
+        <!-- <div class="time-box">
+            <div class="time"></div>
+        </div> -->
+        <div class="pic-box" id="screen">
+            <div id="inner">
+            </div>
+            <div class="selcet-box">
+                <div class="selcet-area">
+                    <strong>奖品：</strong>
+                    <select class="form-control" id="prize-select">
+                    </select>
+                </div>
+                <div class="number-area">
+                    <strong>人数：</strong><span><em id="outnumber">0</em>人</span>
+                </div>
+                <div class="btn-group">
+                    <div class="btn-ant">
+                        <div class="start"></div>
+                        <div class="stop"></div>
+                    </div>
+                </div>
+                <div class="prize"></div>
+                <div class="record"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 中奖弹层 -->
+    <div class="record-layer winning-layer-wrap">
+        <div class="layer-box winning-layer" id="winning-layer">
+            <div class="layer-title"></div>
+            <div class="layer-body">
+                <div class="layer-body-content">
+                    <table class="table">
+                        <caption>
+                            <div class="text-justify"><strong class="text-blue f20">{{title}}获奖名单</strong><span class="f16">获奖人数：{{outnumber}}人</span></div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <!--  <th>用户头像</th> -->
+                                <th>姓名</th>
+                                <th>编号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in people">
+                                <!-- <td><img :src='item.headimgurl' class="head"></td> -->
+                                <td>{{item.name}}</td>
+                                <td>{{item.sn}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layer-bottom"></div>
+        </div>
+    </div>
+    <!-- 获奖名单弹层 -->
+    <div class="record-layer record-layer-wrap">
+        <div class="layer-box record-layer" id="record-layer">
+            <div class="layer-title"></div>
+            <div class="layer-body">
+                <div class="layer-body-content">
+                    <!-- <h1 class="text-center">活动已过期</h1> -->
+                    <div class="layer-body-title f20 text-center">获奖名单</div>
+                    <table class="table" v-for="item in items" v-show="item.onoff==1">
+                        <caption>
+                            <div class="text-justify"><strong class="text-blue f20">{{item.rank}} 获奖名单</strong><span class="f16">获奖人数：{{item.vcount}}人</span></div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <!--  <th>用户头像</th> -->
+                                <th>姓名</th>
+                                <th>编号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="list in item.jos">
+                                <!-- <td><img :src='list.headimgurl' class="head"></td> -->
+                                <td>{{list.name}}</td>
+                                <td>{{list.sn}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layer-bottom"></div>
+        </div>
+    </div>
+    <!-- 获奖名单弹层 -->
+    <div class="record-layer prize-layer-wrap">
+        <div class="layer-box prize-layer">
+            <div class="layer-title"></div>
+            <div class="layer-body">
+                <div class="layer-body-content">
+                    <div class="layer-body-title f20 text-center" id="prize-name">一等奖</div>
+                    <div class="prize-pic" id="prize-pic"><img src="" alt=""></div>
+                    <div class="prize-text" id="prize-text">2016款MAC</div>
+                </div>
+            </div>
+            <div class="layer-bottom"></div>
+        </div>
+    </div>
+    <script src="assets/js/jquery-1.8.2.min.js"></script>
+    <script src="assets/js/vue.min.js"></script>
+    <script src="assets/js/layer/layer.js" type="text/javascript"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="http://links.eventown.com.cn/js/fullscreen.js"></script>
+    <script type="text/javascript">
+    var aUser = null; //用户数据
+    var aAward = null;
+    var winnersNum = [] //中奖用户
+    var recordData = null //呵呵用户
+    var sc = null;
+
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    // ajax
+
+    var hdid = GetRequest().id;
+    if (hdid == undefined) {
+        hdid = 6; //演示demo
+    }
+    var url = 'http://wx.eventown.com/index.php?g=Wap&m=Api&a=get_bubble&id=' + hdid + '&token=ooeczw1478152701';
+    $.get(url, function(data) {
+        if (data.errorno == 0) {
+            aUser = data.userList;
+            aAward = data.awardList
+                // aUser.length = 40
+            createItem(aUser, 0.2);
+            createAward(aAward);
+            document.title = data.data.title;
+            if (data.data.background) {
+                $('body').css({
+                    'background-image': 'url(' + data.data.background + ')'
+                });
+            }
+        } else {
+            layer.msg('<h2>数据加载失败</h2>');
+        }
+    });
+    // 圆圈初始化
+    function createItem(val, speed) {
+        // $.each(val, function(k, v) {
+        //     clss.push(v.id);
+        //     head.push(v.headimgurl)
+        // });
+        userAll = val
+        val.length > 120 ? dataLength = 120 : dataLength = val.length
+        var size = Math.sqrt($('#inner').width() * $('#inner').height() / dataLength / Math.PI)
+        document.getElementById("inner").innerHTML = '';
+        sc = new Screen('inner', {
+            ballsnum: dataLength,
+            spring: speed,
+            bounce: -0.9,
+            gravity: 0.01,
+            diameter: size
+        });
+        sc.initialize();
+    }
+    // 初始化dom
+    function createAward(award) {
+        var option = '';
+        oVid = award[0].vid;
+        $.each(award, function(k, v) {
+            option += '<option value="' + v.id + '"num ="' + v.vcount + '"lucknums ="' + v.lucknums + '"text="' + v.item + '"switch="' + v.onoff + '"pic="' + v.startpicurl + '">' + v.rank + ' </option>'
+        });
+        $('#prize-select').append(option);
+        $('#prize-select option').each(function() {
+            if ($(this).attr('switch') == 1) {
+                $(this).attr('disabled', 'disabled');
+                $(this).text($(this).text()+'(已抽奖)')
+            }
+        });
+        tabAward()
+        createRecord(award);
+    }
+
+    function tabAward() {
+        $('#outnumber').html($('#prize-select option:selected').attr('num'));
+        $('#prize-name').html($('#prize-select option:selected').text());
+        $('#prize-pic img').attr('src', $('#prize-select option:selected').attr('pic'));
+        $('#prize-text').html($('#prize-select option:selected').attr('text'))
+    }
+    // 改变窗口
+    window.onresize = function() {
+        createItem(aUser, 0.2);
+    };
+    // 选择抽奖类型
+    $('#prize-select').change(function() {
+        tabAward()
+    });
+    // 抽奖
+    $('.start').on('click', function() {
+        if ($('#prize-select option:selected').attr('disabled')) {
+            layer.msg('<h2>你已经抽过此等奖项了</h2>', {
+                icon: 5
+            });
+            return
+        }
+        var title = $('#prize-select option:selected').text();
+        var awardId = $('#prize-select option:selected').val();
+        var outnumber = Number($('#outnumber').html());
+        var lucknums = outnumber - $('#prize-select option:selected').attr('lucknums');
+        if (winnersNum.length) {
+            aUser.splice(0, aDel)
+        }
+        userRecord(awardId) // 此处应有掌声
+        createItem(aUser, 2); // 创建圆圈DOM
+        random(aUser, lucknums, recordData); // 中奖数据
+        table.title = title;
+        table.outnumber = outnumber;
+        table.people = winnersNum;
+        // 发送中奖数据
+        sendWinners = {
+            vid: oVid,
+            id: $('#prize-select option:selected').val(),
+            data: winnersNum
+        };
+        $('.btn-ant').css({
+            webkitTransform: 'translateY(-38px)',
+            transform: 'translateY(-38px)'
+        }, 100);
+    });
+    $('.stop').on('click', function() {
+        clearInterval(sc.timer);
+        $('.btn-ant').css({
+            webkitTransform: 'translateY(0px)',
+            transform: 'translateY(0px)'
+        }, 100);
+        console.log(sendWinners.data.length);
+
+        $.post('http://wx.eventown.com/index.php?g=Wap&m=Api&a=push_bubble&id=' + hdid + '&token=ooeczw1478152701', sendWinners, function(data) {
+            data = eval("(" + data + ")");
+            if (data.errorno == 0) {
+                $('#prize-select option:selected').attr('disabled', 'disabled');
+                $('#prize-select option:selected').text($('#prize-select option:selected').text()+'(已抽奖)')
+                layer.closeAll();
+                layer.open({
+                    type: 1,
+                    closeBtn: 0, //不显示关闭按钮
+                    title: false,
+                    skin: 'bg-none',
+                    area: ['520px', 'auto'],
+                    anim: 1,
+                    shade: 0.6,
+                    shadeClose: true, //开启遮罩关闭
+                    content: $('.winning-layer-wrap'),
+                    end: function() {
+                        createItem(aUser, 0.2)
+                    }
+                });
+                $('#record-layer .layer-body-content').append($('#winning-layer table').clone())
+            } else {
+                winnersNum = []
+                layer.msg('<h2>抽奖失败了</h2>', {
+                    icon: 5
+                });
+            }
+        });
+    })
+    $('.prize').on('click', function() {
+        fnLayer($('.prize-layer-wrap'))
+    });
+    $('.record').on('click', function() {
+        fnLayer($('.record-layer-wrap'))
+    });
+    // 随机数
+    function random(arr, num, record) {
+        // return parseInt(Math.random() * (max + 1));
+        console.log(arr.length);
+        aDel = num
+        winnersNum = []
+        arr.sort(
+            function() {
+                return 0.5 - Math.random();
+            }
+        );
+        // 随机数
+        for (var i = 0; i < num; i++) {
+            winnersNum.push(arr[i])
+        }
+        // 呵呵数
+        for (var i = 0; i < record.length; i++) {
+            winnersNum.push(record[i])
+        };
+    }
+    // 此处莫须有
+    function userRecord(_num) {
+        $.each(aAward, function(k, v) {
+            if (_num == v.id) {
+                recordData = v.jos;
+            }
+        });
+    }
+    // 弹层
+    function fnLayer(el) {
+        layer.open({
+            type: 1,
+            closeBtn: 0, //不显示关闭按钮
+            title: false,
+            skin: 'bg-none',
+            area: ['520px', 'auto'],
+            anim: 1,
+            shade: 0.6,
+            shadeClose: true, //开启遮罩关闭
+            content: el
+        });
+    }
+    // 当前中奖列表
+    var table = new Vue({
+        el: '#winning-layer',
+        data: {
+            people: [],
+            title: '',
+            outnumber: ''
+        }
+    });
+    // 全部中奖列表
+    function createRecord(val) {
+        var record = new Vue({
+            el: '#record-layer',
+            data: {
+                items: val
+            }
+        })
+    }
+    // 导航状态
+    var newScreen = new fullScreen(2);
+    newScreen.init()
+    </script>
+</body>
+
+</html>
