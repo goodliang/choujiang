@@ -58,81 +58,81 @@
                 </div>
             </div>
         </div>
-        <!-- 中奖弹层 -->
-        <div class="record-layer winning-layer-wrap">
-            <div class="layer-box winning-layer" id="winning-layer">
-                <div class="layer-title"></div>
-                <div class="layer-body">
-                    <div class="layer-body-content">
-                        <table class="table">
-                            <caption>
-                                <div class="text-justify"><strong class="text-blue f20">{{title}}获奖名单</strong><span class="f16">获奖人数：{{outnumber}}人</span></div>
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <!-- <th>用户头像</th> -->
-                                    <th>姓名</th>
-                                    <th>编号</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in people">
-                                    <!--  <td><img :src='item.headimgurl' class="head"></td> -->
-                                    <td>{{item.name}}</td>
-                                    <td>{{item.sn}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    </div>
+    <!-- 中奖弹层 -->
+    <div class="record-layer winning-layer-wrap">
+        <div class="layer-box winning-layer" id="winning-layer">
+            <div class="layer-title"></div>
+            <div class="layer-body">
+                <div class="layer-body-content">
+                    <table class="table">
+                        <caption>
+                            <div class="text-justify"><strong class="text-blue f20">{{title}}获奖名单</strong><span class="f16">获奖人数：{{outnumber}}人</span></div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <!-- <th>用户头像</th> -->
+                                <th>姓名</th>
+                                <th>编号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in people">
+                                <!--  <td><img :src='item.headimgurl' class="head"></td> -->
+                                <td>{{item.name}}</td>
+                                <td>{{item.sn}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="layer-bottom"></div>
             </div>
+            <div class="layer-bottom"></div>
         </div>
-        <!-- 获奖名单弹层 -->
-        <div class="record-layer record-layer-wrap">
-            <div class="layer-box record-layer" id="record-layer">
-                <div class="layer-title"></div>
-                <div class="layer-body">
-                    <div class="layer-body-content">
-                        <!-- <h1 class="text-center">活动已过期</h1> -->
-                        <div class="layer-body-title f20 text-center">获奖名单</div>
-                        <table class="table" v-for="item in items" v-show="item.onoff==1">
-                            <caption>
-                                <div class="text-justify"><strong class="text-blue f20">{{item.rank}} 获奖名单</strong><span class="f16">获奖人数：{{item.vcount}}人</span></div>
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <!--  <th>用户头像</th> -->
-                                    <th>姓名</th>
-                                    <th>编号</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="list in item.jos">
-                                    <!-- <td><img :src='list.headimgurl' class="head"></td> -->
-                                    <td>{{list.name}}</td>
-                                    <td>{{list.sn}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    </div>
+    <!-- 获奖名单弹层 -->
+    <div class="record-layer record-layer-wrap">
+        <div class="layer-box record-layer" id="record-layer">
+            <div class="layer-title"></div>
+            <div class="layer-body">
+                <div class="layer-body-content">
+                    <!-- <h1 class="text-center">活动已过期</h1> -->
+                    <div class="layer-body-title f20 text-center">获奖名单</div>
+                    <table class="table" v-for="item in items" v-show="item.onoff==1">
+                        <caption>
+                            <div class="text-justify"><strong class="text-blue f20">{{item.rank}} 获奖名单</strong><span class="f16">获奖人数：{{item.vcount}}人</span></div>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <!--  <th>用户头像</th> -->
+                                <th>姓名</th>
+                                <th>编号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="list in item.jos">
+                                <!-- <td><img :src='list.headimgurl' class="head"></td> -->
+                                <td>{{list.name}}</td>
+                                <td>{{list.sn}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="layer-bottom"></div>
             </div>
+            <div class="layer-bottom"></div>
         </div>
-        <!-- 获奖名单弹层 -->
-        <div class="record-layer prize-layer-wrap">
-            <div class="layer-box prize-layer">
-                <div class="layer-title"></div>
-                <div class="layer-body">
-                    <div class="layer-body-content">
-                        <div class="layer-body-title f20 text-center" id="prize-name">一等奖</div>
-                        <div class="prize-pic" id="prize-pic"><img src="" alt=""></div>
-                        <div class="prize-text" id="prize-text">2016款MAC</div>
-                    </div>
+    </div>
+    <!-- 获奖名单弹层 -->
+    <div class="record-layer prize-layer-wrap">
+        <div class="layer-box prize-layer">
+            <div class="layer-title"></div>
+            <div class="layer-body">
+                <div class="layer-body-content">
+                    <div class="layer-body-title f20 text-center" id="prize-name">一等奖</div>
+                    <div class="prize-pic" id="prize-pic"><img src="" alt=""></div>
+                    <div class="prize-text" id="prize-text">2016款MAC</div>
                 </div>
-                <div class="layer-bottom"></div>
             </div>
+            <div class="layer-bottom"></div>
         </div>
     </div>
     <canvas id="canvas"></canvas>
@@ -241,7 +241,7 @@
                 $(arr[0]).show();
                 $(arr[1]).hide();
             }
-        }, 1)
+        }, 20)
         $('.quan1').addClass('animated infinite');
         $('.quan2').addClass('animated infinite');
         var title = $('#prize-select option:selected').text();

@@ -366,9 +366,10 @@ img {
 }
 
 .layui-layer-shade {
-    background-image: url('../img/quan.png');
+    /*background-image: url('../img/quan.png');*/
     background-repeat: no-repeat;
     background-position: center;
+    animation: animatedBackground 0.4s linear infinite;
 }
 
 
@@ -438,9 +439,18 @@ img {
     }
 }
 
+@keyframes animatedBackground {
+    0% {
+        background-image: url('../img/guang1.png');
+    }
+    100% {
+        background-image: url('../img/guang2.png');
+    }
+}
+
 .animated {
-    -webkit-animation-duration: 0.2s;
-    animation-duration: 0.2s;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both
 }
