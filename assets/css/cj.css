@@ -599,6 +599,10 @@ img {
     opacity: 0.1
 }
 
+.avatar-list .avatar-box.active img {
+    opacity: 0.9
+}
+
 .avatar-list .avatar-box .name {
     width: calc(100% - 20px);
     height: 100%;

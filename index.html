@@ -22,8 +22,8 @@
                         <h4>中奖者</h4>
                     </div>
                     <div class="winning-box">
-                        <img src="assets/img/7.jpg" class="pic" style="display:block">
-                        <img src="assets/img/8.jpg" class="pic" style="display:none">
+                        <img src="assets/img/logo1.png" class="pic" style="display:block">
+                        <img src="assets/img/logo2.png" class="pic" style="display:none">
                         <div class="quan1"></div>
                         <div class="quan2"></div>
                     </div>
@@ -70,14 +70,14 @@
                             </caption>
                             <thead>
                                 <tr>
-                                    <!--  <th>用户头像</th> -->
+                                    <!-- <th>用户头像</th> -->
                                     <th>姓名</th>
                                     <th>编号</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in people">
-                                    <!-- <td><img :src='item.headimgurl' class="head"></td> -->
+                                    <!--  <td><img :src='item.headimgurl' class="head"></td> -->
                                     <td>{{item.name}}</td>
                                     <td>{{item.sn}}</td>
                                 </tr>
@@ -230,6 +230,9 @@
         }
         timer = setInterval(function() {
             var arr = $(".winning-box .pic");
+            var zoom = Math.round(Math.random() * 80);
+            $('.avatar-box').removeClass('active')
+            $('.avatar-box').eq(zoom).addClass('active')
             if ($(arr[0]).css("display") == "block") {
                 $(arr[0]).hide();
                 $(arr[1]).show();
@@ -264,6 +267,7 @@
         }, 100);
     });
     $('.stop').on('click', function() {
+        $('.avatar-box').removeClass('active');
         clearInterval(timer)
         $('.quan1').removeClass('animated infinite');
         $('.quan2').removeClass('animated infinite');
@@ -366,7 +370,7 @@
     // 导航状态
     // var newScreen = new fullScreen(2);
     // newScreen.init()
-     $('.user-box').perfectScrollbar(); //美化滚动条
+    $('.user-box').perfectScrollbar(); //美化滚动条
     </script>
 </body>
 
