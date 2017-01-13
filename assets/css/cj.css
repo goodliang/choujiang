@@ -587,7 +587,7 @@ img {
 }
 
 .avatar-list .avatar-box {
-    width: 12.5%;
+    width: 100px;
     padding: 0 10px;
     position: relative;
     margin-bottom: 15px;
@@ -596,6 +596,7 @@ img {
 .avatar-list .avatar-box img {
     width: 100%;
     border-radius: 100%;
+    opacity: 0.1
 }
 
 .avatar-list .avatar-box .name {
@@ -606,6 +607,7 @@ img {
     border-radius: 100%;
     position: absolute;
     overflow: hidden;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .avatar-list .avatar-box p {
@@ -617,10 +619,9 @@ img {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     color: #fcde00;
     padding: 5px 10px;
-    background: rgba(0, 0, 0, 0.3);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
