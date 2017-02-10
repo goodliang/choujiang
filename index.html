@@ -22,26 +22,34 @@
                         <h4>中奖者</h4>
                     </div>
                     <div class="winning-box">
-                        <img src="assets/img/logo1.png" class="pic" style="display:block">
-                        <img src="assets/img/logo2.png" class="pic" style="display:none">
+                        <img src="http://wx.eventown.com/tpl/static/Shard/images/chalv_01.png" class="pic" style="display:block">
+                        <img src="http://wx.eventown.com/tpl/static/Shard/images/chalv_02.png" class="pic" style="display:none">
                         <div class="quan1"></div>
                         <div class="quan2"></div>
+                    </div>
+                    <div class="infoBox">
+                        <div class="infoName"></div>
+                        <div class="infoCompany"></div>
+                    </div>
+                </div>
+                <div class="prizePic">
+                    <div class="prizePicMain">
+                        <div class="layer-body-title f20 text-center" id="prize-name">一等奖</div>
+                        <!-- <div class="prize-pic" id="prize-pic"><img src="" alt=""></div> -->
+                        <div class="prize-text" id="prize-text">奖品：2016款MAC</div>
                     </div>
                 </div>
                 <div class="main">
                     <div class="user-box">
-                        <div class="avatar-list">
+                        <div class="avatar-list" id="avatar-list">
                         </div>
                     </div>
-                    <div class="button-footer">
+                </div>
+                <div class="button-footer">
+                    <div class="button-main">
                         <div class="selcet-box">
-                            <div class="selcet-area">
-                                <strong>奖品：</strong>
-                                <select class="form-control" id="prize-select">
-                                </select>
-                            </div>
                             <div class="number-area">
-                                <strong>人数：</strong><span><em id="outnumber">0</em>人</span>
+                                <span><em id="outnumber">0</em>人</span>
                             </div>
                             <div class="btn-group">
                                 <div class="btn-ant">
@@ -49,7 +57,12 @@
                                     <div class="stop"></div>
                                 </div>
                             </div>
-                            <div class="prize"></div>
+                            <div class="selcet-area">
+                                <!-- <strong>奖品：</strong> -->
+                                <select class="form-control" id="prize-select">
+                                </select>
+                            </div>
+                            <!-- <div class="prize"></div> -->
                             <div class="record"></div>
                         </div>
                     </div>
@@ -73,7 +86,7 @@
                             <tr>
                                 <!-- <th>用户头像</th> -->
                                 <th>姓名</th>
-                                <th>编号</th>
+                                <th>公司名称</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -105,7 +118,7 @@
                             <tr>
                                 <!--  <th>用户头像</th> -->
                                 <th>姓名</th>
-                                <th>编号</th>
+                                <th>公司名称</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,7 +135,7 @@
         </div>
     </div>
     <!-- 获奖名单弹层 -->
-    <div class="record-layer prize-layer-wrap">
+    <!--  <div class="record-layer prize-layer-wrap">
         <div class="layer-box prize-layer">
             <div class="layer-title"></div>
             <div class="layer-body">
@@ -134,7 +147,7 @@
             </div>
             <div class="layer-bottom"></div>
         </div>
-    </div>
+    </div> -->
     <canvas id="canvas"></canvas>
     <script src="assets/js/jquery-1.8.2.min.js"></script>
     <script src="assets/js/vue.min.js"></script>
@@ -148,6 +161,7 @@
     var winnersNum = [] //中奖用户
     var recordData = null //呵呵用户
     var timer = null;
+    var oBoxH
 
     function GetRequest() {
         var url = location.search; //获取url中"?"符后的字串
@@ -189,9 +203,20 @@
         var html = ''
         $.each(user, function(index, val) {
             html += '<div class="avatar-box"><img src=' + val.headimgurl + '>' +
+                '<span class="topGuan"></span>' +
                 '<div class="name"><p>' + val.name + '</p></div></div>'
         });
         $('.avatar-list').append(html);
+        oBoxH = $('.avatar-list').height();
+        // 滚动条
+        var boxSpeed = 2;
+        var oBoxT = $('#avatar-list').scrollTop();
+        setInterval(function() {
+            $('.user-box').scrollTop(oBoxT += boxSpeed);
+            if (oBoxT > oBoxH) {
+                oBoxT = 0;
+            }
+        }, 30);
     }
     // 初始化dom
     function createAward(award) {
@@ -214,12 +239,14 @@
     function tabAward() {
         $('#outnumber').html($('#prize-select option:selected').attr('num'));
         $('#prize-name').html($('#prize-select option:selected').text());
-        $('#prize-pic img').attr('src', $('#prize-select option:selected').attr('pic'));
+        // $('#prize-pic img').attr('src', $('#prize-select option:selected').attr('pic'));
         $('#prize-text').html($('#prize-select option:selected').attr('text'))
     }
     // 选择抽奖类型
     $('#prize-select').change(function() {
-        tabAward()
+        tabAward();
+        $('.infoName').html('')
+        $('.infoCompany').html('')
     });
     // 抽奖
     $('.start').on('click', function() {
@@ -229,11 +256,12 @@
             });
             return
         }
+        $('#prize-select').attr('disabled', 'disabled');
         timer = setInterval(function() {
             var arr = $(".winning-box .pic");
-            var zoom = Math.round(Math.random() * 80);
-            $('.avatar-box').removeClass('active')
-            $('.avatar-box').eq(zoom).addClass('active')
+            // var zoom = Math.round(Math.random() * 80);
+            // $('.avatar-box').removeClass('active')
+            // $('.avatar-box').eq(zoom).addClass('active')
             if ($(arr[0]).css("display") == "block") {
                 $(arr[0]).hide();
                 $(arr[1]).show();
@@ -263,49 +291,55 @@
             data: winnersNum
         };
         $('.btn-ant').css({
-            webkitTransform: 'translateY(-120px)',
-            transform: 'translateY(-120px)'
+            webkitTransform: 'translateY(-200px)',
+            transform: 'translateY(-200px)'
         }, 100);
     });
     $('.stop').on('click', function() {
-        $('.avatar-box').removeClass('active');
-        clearInterval(timer)
-        $('.quan1').removeClass('animated infinite');
-        $('.quan2').removeClass('animated infinite');
-        $('.btn-ant').css({
-            webkitTransform: 'translateY(0px)',
-            transform: 'translateY(0px)'
-        }, 100);
-        $.post('http://wx.eventown.com/index.php?g=Wap&m=Api&a=push_bubble&id=' + hdid + '&token=ooeczw1478152701', sendWinners, function(data) {
-            data = eval("(" + data + ")");
-            if (data.errorno == 0) {
-                $('#prize-select option:selected').attr('disabled', 'disabled');
-                $('#prize-select option:selected').text($('#prize-select option:selected').text() + '(已抽奖)')
-                layer.closeAll();
-                layer.open({
-                    type: 1,
-                    closeBtn: 0, //不显示关闭按钮
-                    title: false,
-                    skin: 'bg-none',
-                    area: ['520px', 'auto'],
-                    anim: 1,
-                    shade: 0.6,
-                    shadeClose: true, //开启遮罩关闭
-                    content: $('.winning-layer-wrap'),
-                    end: function() {}
+            // $('.avatar-box').removeClass('active');
+            $('#prize-select').removeAttr("disabled");
+            clearInterval(timer)
+            $('.quan1').removeClass('animated infinite');
+            $('.quan2').removeClass('animated infinite');
+            $('.btn-ant').css({
+                webkitTransform: 'translateY(0px)',
+                transform: 'translateY(0px)'
+            }, 100);
+            $.post('http://wx.eventown.com/index.php?g=Wap&m=Api&a=push_bubble&id=' + hdid + '&token=ooeczw1478152701', sendWinners, function(data) {
+                data = eval("(" + data + ")");
+                $.each(winnersNum, function(k, v) {
+                    console.log(v);
+                    $('.infoName').html(v.name)
+                    $('.infoCompany').html(v.sn)
                 });
-                $('#record-layer .layer-body-content').append($('#winning-layer table').clone())
-            } else {
-                winnersNum = []
-                layer.msg('<h2>抽奖失败了</h2>', {
-                    icon: 5
-                });
-            }
-        });
-    })
-    $('.prize').on('click', function() {
-        fnLayer($('.prize-layer-wrap'))
-    });
+                if (data.errorno == 0) {
+                    $('#prize-select option:selected').attr('disabled', 'disabled');
+                    $('#prize-select option:selected').text($('#prize-select option:selected').text() + '(已抽奖)')
+                        // layer.closeAll();
+                        // layer.open({
+                        //     type: 1,
+                        //     closeBtn: 0, //不显示关闭按钮
+                        //     title: false,
+                        //     skin: 'bg-none',
+                        //     area: ['520px', 'auto'],
+                        //     anim: 1,
+                        //     shade: 0.6,
+                        //     shadeClose: true, //开启遮罩关闭
+                        //     content: $('.winning-layer-wrap'),
+                        //     end: function() {}
+                        // });
+                    $('#record-layer .layer-body-content').append($('#winning-layer table').clone())
+                } else {
+                    winnersNum = []
+                    layer.msg('<h2>抽奖失败了</h2>', {
+                        icon: 5
+                    });
+                }
+            });
+        })
+        // $('.prize').on('click', function() {
+        //     fnLayer($('.prize-layer-wrap'))
+        // });
     $('.record').on('click', function() {
         fnLayer($('.record-layer-wrap'))
     });
@@ -371,7 +405,7 @@
     // 导航状态
     // var newScreen = new fullScreen(2);
     // newScreen.init()
-    $('.user-box').perfectScrollbar(); //美化滚动条
+    //$('.user-box').perfectScrollbar(); //美化滚动条
     </script>
 </body>
 

@@ -19,10 +19,12 @@ html {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    font-family: "微软雅黑";
 }
 
 body {
-    background-image: url(../img/bg.jpg);
+    /*background-image: url(../img/bg.jpg);*/
+    /*background-color:#03257c;*/
     background-repeat: no-repeat;
     background-size: cover;
     line-height: 1.4;
@@ -160,13 +162,12 @@ img {
 .selcet-box {
     position: absolute;
     top: 50%;
+    left: 340px;
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
-    left: 0;
     width: 100%;
-    text-align: center;
     color: #fff;
     padding: 11px 0;
     /*box-shadow: 0 0 10px #ccc;*/
@@ -177,8 +178,8 @@ img {
     display: -ms-flex;
     display: -o-flex;
     display: flex;
-    justify-content: center;
-    -webkit-ustify-content: center;
+    justify-content: left;
+    -webkit-ustify-content: left;
     align-items: center;
     -webkit-align-items: center;
 }
@@ -192,9 +193,9 @@ img {
 }
 
 .record {
-    width: 132px;
-    height: 38px;
-    background: url('../img/btn03.png');
+    width: 192px;
+    height: 79px;
+    background: url('../img/btn10.png');
     margin-left: 15px;
     cursor: pointer;
 }
@@ -250,6 +251,7 @@ img {
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    margin: 0 20px;
 }
 
 #prize-select option {}
@@ -260,14 +262,14 @@ img {
 /*暂停*/
 
 .btn-group {
-    width: 120px;
-    height: 120px;
+    width: 200px;
+    height: 200px;
     overflow: hidden;
     margin-left: 15px;
 }
 
 .btn-ant {
-    height: 240px;
+    height: 400px;
     overflow: hidden;
     -webkit-transition: all .20s ease;
     -moz-transition: all .20s ease;
@@ -277,8 +279,8 @@ img {
 }
 
 .start {
-    width: 120px;
-    height: 120px;
+    width: 200px;
+    height: 200px;
     background: url('../img/start.png');
     background-size: cover;
     display: inline-block;
@@ -292,8 +294,8 @@ img {
 }
 
 .stop {
-    width: 120px;
-    height: 120px;
+    width: 200px;
+    height: 200px;
     background: url('../img/stop.png');
     background-size: cover;
     display: block;
@@ -351,7 +353,8 @@ img {
 
 .prize-text {
     text-align: center;
-    font-size: 18px;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .winning-layer-wrap,
@@ -470,7 +473,7 @@ img {
     top: 0;
     bottom: 0;
     opacity: 0.9;
-    background-image: url(../img/bg.jpg);
+    /*background-image: url(../img/bg.jpg);*/
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -483,7 +486,7 @@ img {
     width: 300px;
     position: absolute;
     top: 50%;
-    left: 30px;
+    left: 50px;
     transform: translateY(-50%);
     text-align: center;
 }
@@ -506,13 +509,13 @@ img {
 
 .winning-box .pic {
     position: absolute;
-    width: 240px;
-    height: 240px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     top: 50%;
     left: 50%;
-    margin-left: -120px;
-    margin-top: -120px;
+    margin-left: -80px;
+    margin-top: -80px;
     z-index: 1;
     -webkit-animation-name: changeL;
     animation-name: changeL
@@ -555,9 +558,35 @@ img {
     animation-timing-function: linear;
 }
 
+.prizePic {
+    position: absolute;
+    left: 340px;
+    top: 0;
+    width: 300px;
+    height: 60%;
+    color: #fcde00;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: center;
+    -webkit-ustify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.prizePic img {
+    width: 100%;
+}
+
+.prizePic .layer-body-title {
+    color: #fff;
+}
+
 .main {
     float: left;
-    margin-left: 360px;
+    margin-left: 660px;
     height: 100%;
     margin-top: 20px;
     margin-right: 20px;
@@ -566,14 +595,30 @@ img {
 .button-footer {
     width: 100%;
     height: 40%;
+    position: absolute;
+    bottom: 0;
+}
+
+.button-main {
+    width: 100%;
+    height: 100%;
     position: relative;
+}
+
+.topGuan {
+    width: 45px;
+    height: 40px;
+    position: absolute;
+    top: -13px;
+    right: 0;
+    background: url('../img/guan.png');
 }
 
 .user-box {
     width: 100%;
-    overflow-y: auto;
+    overflow: hidden;
     height: 57%;
-    padding-top: 10px;
+    padding-top: 25px;
 }
 
 .user-list h3 {
@@ -597,8 +642,8 @@ img {
 }
 
 .avatar-list .avatar-box {
-    width: 100px;
-    padding: 0 10px;
+    width: 130px;
+    padding: 0 15px;
     position: relative;
     margin-bottom: 15px;
 }
@@ -606,14 +651,14 @@ img {
 .avatar-list .avatar-box img {
     width: 100%;
     border-radius: 100%;
-    opacity: 0.1
 }
 
 .avatar-list .avatar-box.active img {
-    opacity: 0.9
+    opacity: 0.2
 }
 
-.avatar-list .avatar-box .name {
+
+/*.avatar-list .avatar-box .name {
     width: calc(100% - 20px);
     height: 100%;
     left: 10px;
@@ -622,9 +667,20 @@ img {
     position: absolute;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.1);
-}
+}*/
 
 .avatar-list .avatar-box p {
+    font-size: 20px;
+    color: #fcde00;
+    padding: 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+
+/*.avatar-list .avatar-box p {
     width: 100%;
     position: absolute;
     top: 50%;
@@ -641,7 +697,25 @@ img {
     text-overflow: ellipsis;
     border-radius: 20px;
 }
+*/
 
 #inner {
     display: none;
+}
+
+.infoBox {
+    color: #fcde00;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.infoName {
+    font-size: 24px;
+    height: 1.4em;
+}
+
+.infoCompany {
+    font-size: 20px;
+    height: 1.4em;
+    padding: 10px 30px;
 }
